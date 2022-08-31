@@ -63,7 +63,26 @@ For the canary scenario we take advantage in how a kubernetes `service` does its
 Kubernetes provides the kind `ingress` but in order for it to work it needs a [controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/). For this lab we will use [nginx-ingress controller](https://github.com/kubernetes/ingress-nginx/)
 
 You can easily set one up by running `6-ingress-setup.sh`
-## TODO
-* Future 
-    * Github IO page
-    * Open Service Mesh
+
+Running `7-ingress-get-ingress-ip.sh` will return an IP but the default path is not actually setup in this lab so it will return a 404 page.
+
+### Blue/Green
+With the ingress controller we can use a second host for routing traffic to a green deployment.
+
+In this lab we setup a host listen on aks.implodingduck.root for the v1 of the app and aks-checkout.implodingduck.root for the v2 of the app to test. Then to activate v2 as the main version we adjust the backend service for the aks.implodingduck.root ingress and move v1 into checkout. The script `8-ingress-bg-swap.sh` can be ran to highlight this. 
+
+![Showing how having two different host ingress routes can be defined and switching the endpoint to activate v2](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/ingress-bg.png)
+
+### Canary
+Nginx Ingress Controller has built in support for a [canary ingress](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#canary)
+
+This lets us define a specific canary ingress and define either a header, cookie and/or weight to control the routing to the defined version of the application. The script `9-ingress-canary.sh` can be ran to highlight this. 
+
+![Showing how nginx ingress controller evaluates the canary ingress definition to route the traffic between two different versions of an app](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/ingress-canary.png)
+
+## Service Mesh
+Each service mesh in Kubernetes has its own way of helping with Blue/Green and Canary deployments. 
+
+* [Open Service Mesh](https://release-v1-0.docs.openservicemesh.io/docs/demos/canary_rollout/)
+
+More content around this coming eventually...
