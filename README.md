@@ -26,6 +26,29 @@ Kubernetes uses `service` for routing to different pods and the base `service` i
 Setup the basic example by running `2-basic-setup.sh`
 
 Validate that the services have been created with `3-basic-get-service-ips.sh`
+Opening up the v1 service ip url and the v2 service ip url will show you the extremely simple test app that we have setup. 
+
+V1:
+![v1](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/v1.png)
+
+V2:
+![v2](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/v2.png)
+
+### Blue/Green
+To understand Blue/Green with a kubernetes `service` lets look at [`basic\bg-service-v1.yaml`](https://github.com/implodingduck/aks-blue-green-canary/blob/main/yaml/basic/bg-service-v1.yaml)
+
+The important part is at the very bottom:
+```
+selector:
+    app: sampleapp
+    version: v1
+```
+The selector tells the service what pod labels it should look for when directing traffic. In order to swap this to a new version, we can simply update the version reference to v2 which is exactly what [`basic\bg-service-v2.yaml`](https://github.com/implodingduck/aks-blue-green-canary/blob/main/yaml/basic/bg-service-v2.yaml) performs when we run it. 
+
+You can see this in action by running `4-basic-bg-swap.sh`
+
+![Showing how changing the service selector version attribute routes users from the pod running v1 to the pod running v2](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/basic-bg.png)
+
 
 ## Ingress Controller
 Kubernetes provides the kind `ingress` but in order for it to work it needs a [controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/). For this lab we will use [nginx-ingress controller](https://github.com/kubernetes/ingress-nginx/)
