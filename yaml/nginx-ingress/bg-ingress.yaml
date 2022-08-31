@@ -6,12 +6,32 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - http:
+  - host: aks.implodingduck.root
+    http:
       paths:
-      - path: /bg
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: ingress-sampleapp-v1
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sampleapp-bg-ingress-checkout
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: aks-checkout.implodingduck.root
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ingress-sampleapp-v2
             port:
               number: 80
