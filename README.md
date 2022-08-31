@@ -81,8 +81,7 @@ This lets us define a specific canary ingress and define either a header, cookie
 ![Showing how nginx ingress controller evaluates the canary ingress definition to route the traffic between two different versions of an app](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/ingress-canary.png)
 
 ## Service Mesh
-Each service mesh in Kubernetes has its own way of helping with Blue/Green and Canary deployments. 
+Each service mesh in Kubernetes has its own way of helping with Blue/Green and Canary deployments. Below are just some samples
 
 * [Open Service Mesh](https://release-v1-0.docs.openservicemesh.io/docs/demos/canary_rollout/)
-
-More content around this coming eventually...
+* [Istio](https://istio.io/latest/blog/2017/0.1-canary/)
