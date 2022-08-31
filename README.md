@@ -16,7 +16,7 @@ This repo is to help demonstrate different ways you can do Blue/Green and canary
 * If you dont have an existing spn you can create one with:
 ```
 SUB_ID=$(az account show | jq -r '.id')
-az ad sp create-for-rbac -n "implodingduck-ghactions-spn" --role Contributor --scopes subscriptions/$SUB_ID
+az ad sp create-for-rbac -n "implodingduck-bgc-spn" --role Contributor --scopes subscriptions/$SUB_ID
 ```
 * Then run [`./1-setup.sh`](https://github.com/implodingduck/aks-blue-green-canary/blob/main/scripts/1-setup.sh) to create the initial AKS cluster
 
