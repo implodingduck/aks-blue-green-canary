@@ -25,6 +25,8 @@ Kubernetes uses `service` for routing to different pods and the base `service` i
 
 Setup the basic example by running `2-basic-setup.sh`
 
+Validate that the services have been created with `3-basic-get-service-ips.sh`
+
 ## Ingress Controller
 Kubernetes provides the kind `ingress` but in order for it to work it needs a [controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/). For this lab we will use [nginx-ingress controller](https://github.com/kubernetes/ingress-nginx/)
 
