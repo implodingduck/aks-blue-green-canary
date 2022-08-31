@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleapp-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sampleapp
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: sampleapp
+        version: v2
+    spec:
+      containers:
+      - name: sampleapp
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: config-volume
+        configMap:
+          name: sampleapp-v2
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: sampleapp
+    version: v2
+  name: sampleapp-v2
+data:
+  index.html: |-
+    <html>
+    <head>
+      <title>V2</title>
+    </head>
+    <body>
+      <h1 style="color: #00ff00">V2</h1>
+    </body>
+    </html>
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sampleapp-v2
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: sampleapp
+    version: v2

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sampleapp-bg-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /bg
+        pathType: Prefix
+        backend:
+          service:
+            name: ingress-sampleapp-v1
+            port:
+              number: 80

@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sampleapp-canary-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /canary
+        pathType: Prefix
+        backend:
+          service:
+            name: ingress-sampleapp-v1
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sampleapp-canary-ingress-checkout
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-by-header: "x-checkout"
+    nginx.ingress.kubernetes.io/canary-weight: "50"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /canary
+        pathType: Prefix
+        backend:
+          service:
+            name: ingress-sampleapp-v2
+            port:
+              number: 80
