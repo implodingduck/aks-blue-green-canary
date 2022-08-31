@@ -50,6 +50,15 @@ You can see this in action by running `4-basic-bg-swap.sh`
 ![Showing how changing the service selector version attribute routes users from the pod running v1 to the pod running v2](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/basic-bg.png)
 
 
+### Canary
+For the canary scenario we take advantage in how a kubernetes `service` does its lookup. By simplifying the selector to be just the app name and not include the version, then it will auto load balance between the pods of both versions. Running `5-basic-canary.sh` calls the same service IP but the responses will switch between both v1 and v2. 
+
+![Showing how having the service selector with just app name and no version will auto balance between the pod running v1 to the pod running v2](https://raw.githubusercontent.com/implodingduck/aks-blue-green-canary/main/images/basic-canary.png)
+
+
+**Extra Credit!** Not in a script but if you adjust the scale of v1 vs v2, then you can adjust the "weight" that the canary version gets called vs the stable version. 
+
+
 ## Ingress Controller
 Kubernetes provides the kind `ingress` but in order for it to work it needs a [controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/). For this lab we will use [nginx-ingress controller](https://github.com/kubernetes/ingress-nginx/)
 
